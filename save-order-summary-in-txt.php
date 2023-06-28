@@ -39,12 +39,14 @@ add_action('manage_shop_order_posts_custom_column', 'custom_orders_column_conten
 function custom_orders_column_content($column, $post_id)
 {
 
-  $order = new WC_Order($post_id);
 
-  if($order->get_status() != 'processing'){
+
+  $order = new WC_Order($post_id);
+  // var_dump(wc_get_order_notes(['order_id' => $post_id]));
+  if ($order->get_status() != 'processing' || $order->get_transaction_id() == '') {
     return;
   }
-  
+
   // var_dump($order);
   $order_summary = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() . ' - ' .
     $order->get_billing_phone() . PHP_EOL .
